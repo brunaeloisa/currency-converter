@@ -1,3 +1,7 @@
+package br.com.alura.currencyconverter.models;
+
+import br.com.alura.currencyconverter.exceptions.InvalidApiKeyException;
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -26,7 +30,7 @@ public class CurrencyConverter {
         this.apiKey = apiKey;
     }
 
-    public void convert(String baseCurrency, String targetCurrency, double amount) {
+    public Conversion convert(String baseCurrency, String targetCurrency, double amount) {
         String url = "https://v6.exchangerate-api.com/v6/%s/pair/%s/%s/"
                 .formatted(apiKey, baseCurrency, targetCurrency) + amount;
 
@@ -37,8 +41,21 @@ public class CurrencyConverter {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             JsonElement element = JsonParser.parseString(response.body());
             JsonObject objectRoot = element.getAsJsonObject();
-            double result = objectRoot.get("conversion_result").getAsDouble();
-            System.out.printf("O valor de %.2f %s equivale a %.2f %s.", amount, baseCurrency, result, targetCurrency);
+            String status = objectRoot.get("result").getAsString();
+
+            if (status.equals("success")) {
+                var conversionResult = new Gson().fromJson(element, ConversionResult.class);
+                return new Conversion(conversionResult, amount);
+            }
+
+            String error = objectRoot.get("error-type").getAsString();
+
+            if (error.equals("invalid-key")) {
+                throw new InvalidApiKeyException("Insira uma chave válida.");
+            } else {
+                throw new RuntimeException("Ocorreu um erro do tipo " + error + ".");
+            }
+
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
