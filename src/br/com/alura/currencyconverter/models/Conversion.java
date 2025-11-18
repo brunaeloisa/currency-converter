@@ -17,7 +17,7 @@ public class Conversion {
 
     public void displayResult() {
         System.out.printf(
-            "O valor de %.2f %s equivale a %.2f %s.",
+            "%.2f %s equivale a %.2f %s.",
             originalAmount,
             baseCurrency,
             convertedAmount,
