@@ -27,15 +27,13 @@ public class Menu {
         }
     }
 
-    public static int readMenuOption(Scanner scanner) {
+    public static int readMenuOption(Scanner scanner, int N) {
         while (true) {
             try {
                 System.out.print("\nEscolha uma ação: ");
                 int option = scanner.nextInt();
 
-                if (option == 0) {
-                    System.exit(0);
-                } else if (option == 1 || option == 2) {
+                if (option >= 0 && option < N) {
                     return option;
                 } else {
                     System.out.println("Opção inválida.");
@@ -64,7 +62,7 @@ public class Menu {
             System.out.printf("%d - [%s] %s\n", i, currency, CURRENCY_NAMES.get(currency));
         }
 
-        System.out.println("0 - Sair");
+        System.out.println("0 - Voltar para o menu");
 
         while (true) {
             try {
@@ -72,7 +70,7 @@ public class Menu {
                 int option = scanner.nextInt();
 
                 if (option == 0) {
-                    System.exit(0);
+                    return null;
                 }
 
                 return currencies.get(option - 1);
