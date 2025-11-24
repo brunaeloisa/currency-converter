@@ -2,33 +2,36 @@ package br.com.alura.currencyconverter;
 
 import br.com.alura.currencyconverter.models.Conversion;
 import br.com.alura.currencyconverter.models.CurrencyConverter;
+import br.com.alura.currencyconverter.models.HistoryManager;
 import br.com.alura.currencyconverter.models.Menu;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        List<Conversion> log = new ArrayList<>();
+        List<Conversion> log = HistoryManager.readJsonLog();
         var converter = new CurrencyConverter();
         var scanner = new Scanner(System.in);
         int option;
         int action;
 
         do {
-            System.out.println("\n===============================");
-            System.out.println("      CONVERSOR DE MOEDAS      ");
-            System.out.println("===============================\n");
-            System.out.println("1 - Iniciar conversão");
-            System.out.println("2 - Exibir histórico");
-            System.out.println("3 - Limpar histórico");
-            System.out.println("0 - Sair");
+            System.out.println("""
+                    \n===============================
+                          CONVERSOR DE MOEDAS
+                    ===============================
+                
+                    1 - Iniciar conversão
+                    2 - Exibir histórico
+                    3 - Limpar histórico
+                    0 - Sair""");
 
             option = Menu.readMenuOption(scanner, 4);
 
             switch (option) {
                 case 0:
+                    HistoryManager.saveJsonLog(log);
                     break;
                 case 1:
                     do {
@@ -68,7 +71,8 @@ public class Main {
                     break;
                 case 3:
                     log.clear();
-                    System.out.println("\nHistórico limpo com sucesso!");
+                    HistoryManager.saveJsonLog(log);
+                    System.out.println("\nO histórico foi limpo!");
                     break;
             }
         } while (option != 0);
