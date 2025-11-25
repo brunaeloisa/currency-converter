@@ -29,23 +29,28 @@ public class Conversion {
         this.dateTime = currentTime.format(formatter);
     }
 
+    private String numberFormat(double amount) {
+        String format = amount < 0.01 ? "%.4f" : "%.2f";
+        return format.formatted(amount);
+    }
+
     public void displayResult() {
         System.out.printf(
-            "%.2f %s equivale a %.2f %s.",
-            originalAmount,
+            "%s %s equivale a %s %s.",
+            numberFormat(originalAmount),
             baseCurrency,
-            convertedAmount,
+            numberFormat(convertedAmount),
             targetCurrency
         );
     }
 
     @Override
     public String toString() {
-        return "%s\n%.2f %s => %.2f %s".formatted(
+        return "%s\n%s %s => %s %s".formatted(
                 dateTime,
-                originalAmount,
+                numberFormat(originalAmount),
                 baseCurrency,
-                convertedAmount,
+                numberFormat(convertedAmount),
                 targetCurrency);
     }
 }

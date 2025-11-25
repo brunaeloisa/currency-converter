@@ -35,9 +35,13 @@ public class Main {
                     break;
                 case 1:
                     do {
+                        System.out.println("\n===============================\n");
+                        System.out.println("Escolha a moeda de origem:\n");
                         String baseCode = Menu.readCurrency(scanner, null);
                         if (baseCode == null) break;
 
+                        System.out.println("\n===============================\n");
+                        System.out.printf("Converter de %s para...\n\n", baseCode);
                         String targetCode = Menu.readCurrency(scanner, baseCode);
                         if (targetCode == null) break;
 

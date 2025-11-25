@@ -50,13 +50,6 @@ public class Menu {
         currencies.remove(baseCode);
         Collections.sort(currencies);
 
-        if (baseCode == null) {
-            System.out.println("Escolha a moeda de origem:\n");
-        } else {
-            System.out.println("\n===============================\n");
-            System.out.printf("Converter de %s para...\n\n", baseCode);
-        }
-
         for (int i = 1; i <= currencies.size(); i++) {
             String currency = currencies.get(i-1);
             System.out.printf("%d - [%s] %s\n", i, currency, CURRENCY_NAMES.get(currency));
